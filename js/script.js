@@ -3,7 +3,7 @@
  * @constant {string} STORAGE_URL
  */
 const STORAGE_URL =
-  'https://join-gruppenarbeit-c2942-default-rtdb.europe-west1.firebasedatabase.app/';
+  'https://join-68c3a-default-rtdb.europe-west1.firebasedatabase.app/';
 
 /**
  * Array to store user objects retrieved from the database.
@@ -27,7 +27,16 @@ let currentUser = null;
  * Array of colors used for task categories or other visual elements.
  * @type {Array<string>}
  */
-const colors = ['#fe7b02', '#9228ff', '#6e52ff', '#fc71ff', '#ffbb2b', '#21d7c2', '#462f89', '#ff4646'];
+const colors = [
+  '#fe7b02',
+  '#9228ff',
+  '#6e52ff',
+  '#fc71ff',
+  '#ffbb2b',
+  '#21d7c2',
+  '#462f89',
+  '#ff4646',
+];
 
 /**
  * Array to store task objects retrieved from the database.
@@ -43,7 +52,7 @@ let tasks = [];
  * @returns {Array} - The updated array after deletion.
  */
 function deleteById(array, idToDelete) {
-  return array.filter(item => item.id !== idToDelete);
+  return array.filter((item) => item.id !== idToDelete);
 }
 
 /**
@@ -91,8 +100,8 @@ async function postData(path = '', data = {}) {
  * @param {string} [path=''] - The path in the database from which to retrieve data.
  * @returns {Promise<Object>} - A promise that resolves to the JSON response from the server.
  */
-async function getData(path = "") {
-  let response = await fetch(STORAGE_URL + path + ".json");
+async function getData(path = '') {
+  let response = await fetch(STORAGE_URL + path + '.json');
   return await response.json();
 }
 
@@ -135,7 +144,7 @@ async function loadTasks() {
  */
 async function deleteTaskById(taskId) {
   await deleteData('/tasks/' + taskId);
-  tasks = tasks.filter(task => task.id !== taskId);
+  tasks = tasks.filter((task) => task.id !== taskId);
 }
 
 /**
@@ -255,7 +264,7 @@ function enrichContacts() {
  */
 function showDropUser() {
   if (currentUser) {
-    const name = currentUser.user_name.split(" ");
+    const name = currentUser.user_name.split(' ');
     let initials;
 
     if (name.length === 1) {
@@ -266,7 +275,7 @@ function showDropUser() {
       initials = firstNameLetter + lastNameLetter;
     }
 
-    document.getElementById("drop_user").innerHTML = initials;
+    document.getElementById('drop_user').innerHTML = initials;
   }
 }
 
@@ -277,7 +286,7 @@ function showDropUser() {
  * @async
  */
 async function logOut() {
-  await deleteData("/currentUser");
+  await deleteData('/currentUser');
   localStorage.removeItem('isLoggedIn');
   window.location.href = './index.html';
 }
@@ -290,8 +299,8 @@ async function logOut() {
 async function loadContacts() {
   contacts = [];
 
-  const loadedContacts = await getData("/contacts");
-  Object.keys(loadedContacts).forEach(key => {
+  const loadedContacts = await getData('/contacts');
+  Object.keys(loadedContacts).forEach((key) => {
     const contact = { id: key, ...loadedContacts[key] };
     contacts.push(contact);
   });
@@ -322,7 +331,7 @@ function hideElementsForLoggedOutUsers() {
 
   if (!isLoggedIn) {
     const elementsToHide = document.querySelectorAll('.hide-if-logged-out');
-    elementsToHide.forEach(element => {
+    elementsToHide.forEach((element) => {
       element.style.display = 'none';
     });
     return false;
@@ -330,13 +339,19 @@ function hideElementsForLoggedOutUsers() {
   return true;
 }
 
-function checkOrientation() {  
+function checkOrientation() {
   if (isMobileDevice() && window.innerHeight < window.innerWidth) {
     document.getElementById('landscape_format_message').classList.add('hidden');
-    document.getElementById('landscape_format_message_container').classList.add('hidden');
+    document
+      .getElementById('landscape_format_message_container')
+      .classList.add('hidden');
   } else {
-    document.getElementById('landscape_format_message').classList.remove('hidden');
-    document.getElementById('landscape_format_message_container').classList.remove('hidden');
+    document
+      .getElementById('landscape_format_message')
+      .classList.remove('hidden');
+    document
+      .getElementById('landscape_format_message_container')
+      .classList.remove('hidden');
   }
 }
 
