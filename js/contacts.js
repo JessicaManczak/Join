@@ -16,7 +16,7 @@ let groupedContacts = groupContacts();
  * @returns {HTMLElement} The HTML element with the specified ID.
  */
 function docID(id) {
-    return document.getElementById(id);
+  return document.getElementById(id);
 }
 
 /**
@@ -24,10 +24,10 @@ function docID(id) {
  * @returns {Object} An object containing the name, email, and mobile number of the new contact.
  */
 function getNewInput() {
-    let newName = docID('edit-name').value;
-    let newEmail = docID('edit-email').value;
-    let newMobile = docID('edit-mobile').value;
-    return { name: newName, email: newEmail, mobile: newMobile };
+  let newName = docID('edit-name').value;
+  let newEmail = docID('edit-email').value;
+  let newMobile = docID('edit-mobile').value;
+  return { name: newName, email: newEmail, mobile: newMobile };
 }
 
 /**
@@ -35,18 +35,18 @@ function getNewInput() {
  * @returns {Object} An object where keys are first letters and values are arrays of contacts.
  */
 function groupContacts() {
-    let groupedContacts = {};
+  let groupedContacts = {};
 
-    for (let i = 0; i < contacts.length; i++) {
-        let contact = contacts[i];
-        let firstLetter = contact.name.charAt(0).toUpperCase();
-        if (!groupedContacts[firstLetter]) {
-            groupedContacts[firstLetter] = [];
-        }
-        groupedContacts[firstLetter].push(contact);
+  for (let i = 0; i < contacts.length; i++) {
+    let contact = contacts[i];
+    let firstLetter = contact.name.charAt(0).toUpperCase();
+    if (!groupedContacts[firstLetter]) {
+      groupedContacts[firstLetter] = [];
     }
+    groupedContacts[firstLetter].push(contact);
+  }
 
-    return groupedContacts;
+  return groupedContacts;
 }
 
 /**
@@ -56,34 +56,36 @@ function groupContacts() {
  * Also handles orientation changes and periodic orientation checks.
  */
 async function init() {
-    includeHTML();
-    checkFirstPage();
-    await initContacts();
-    groupContacts();
-    renderContacts();
-    await loadCurrentUsers();
-    showDropUser();
+  includeHTML();
+  checkFirstPage();
+  await initContacts();
+  groupContacts();
+  renderContacts();
+  await loadCurrentUsers();
+  showDropUser();
 
-    document.getElementById("log_out").addEventListener('click', logOut);
+  document.getElementById('log_out').addEventListener('click', logOut);
 
-    document.querySelector('.drop-logo').addEventListener('click', toggleDropdown);
+  document
+    .querySelector('.drop-logo')
+    .addEventListener('click', toggleDropdown);
 
-    window.addEventListener('click', function (event) {
-        if (!event.target.matches('.drop-logo')) {
-            let dropdowns = document.getElementsByClassName("dropdown-content");
-            for (let i = 0; i < dropdowns.length; i++) {
-                let openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
+  window.addEventListener('click', function (event) {
+    if (!event.target.matches('.drop-logo')) {
+      let dropdowns = document.getElementsByClassName('dropdown-content');
+      for (let i = 0; i < dropdowns.length; i++) {
+        let openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
         }
-    });
+      }
+    }
+  });
 
-    window.addEventListener('resize', checkOrientation);
-    window.addEventListener('orientationchange', checkOrientation);
-    checkOrientation();
-    setInterval(checkOrientation, 500);
+  window.addEventListener('resize', checkOrientation);
+  window.addEventListener('orientationchange', checkOrientation);
+  checkOrientation();
+  setInterval(checkOrientation, 500);
 }
 
 /**
@@ -92,30 +94,30 @@ async function init() {
  * representing each group of contacts.
  */
 function renderContacts() {
-    let groupedContacts = groupContacts(); // Retrieve grouped contacts
-    let contactsContainer = docID("contact-filter");
-    contactsContainer.innerHTML = ''; // Clear previous content
-    globalIndex = 0; // Reset global index for contacts
+  let groupedContacts = groupContacts(); // Retrieve grouped contacts
+  let contactsContainer = docID('contact-filter');
+  contactsContainer.innerHTML = ''; // Clear previous content
+  globalIndex = 0; // Reset global index for contacts
 
-    // Sort letters alphabetically
-    let sortedLetters = Object.keys(groupedContacts).sort();
+  // Sort letters alphabetically
+  let sortedLetters = Object.keys(groupedContacts).sort();
 
-    // Iterate through each letter group
-    for (let i = 0; i < sortedLetters.length; i++) {
-        let letter = sortedLetters[i];
-        let contactsHtml = '';
-        let group = groupedContacts[letter];
+  // Iterate through each letter group
+  for (let i = 0; i < sortedLetters.length; i++) {
+    let letter = sortedLetters[i];
+    let contactsHtml = '';
+    let group = groupedContacts[letter];
 
-        // Generate HTML for each contact in the group
-        for (let j = 0; j < group.length; j++) {
-            contactsHtml += createContactHtml(group[j], globalIndex);
-            globalIndex++;
-        }
-
-        // Create HTML section for the letter group
-        let sectionHtml = createGroupHtml(letter, contactsHtml);
-        contactsContainer.innerHTML += sectionHtml;
+    // Generate HTML for each contact in the group
+    for (let j = 0; j < group.length; j++) {
+      contactsHtml += createContactHtml(group[j], globalIndex);
+      globalIndex++;
     }
+
+    // Create HTML section for the letter group
+    let sectionHtml = createGroupHtml(letter, contactsHtml);
+    contactsContainer.innerHTML += sectionHtml;
+  }
 }
 
 /**
@@ -123,16 +125,16 @@ function renderContacts() {
  * @param {number} i - Index of the contact to be opened.
  */
 function openContact(i) {
-    let selectedContainer = docID('selected-container');
+  let selectedContainer = docID('selected-container');
 
-    // Render selected contact HTML
-    selectedContainer.innerHTML = generateSelectedContactHTML(i);
-    selectedContainer.classList.remove('d-none');
+  // Render selected contact HTML
+  selectedContainer.innerHTML = generateSelectedContactHTML(i);
+  selectedContainer.classList.remove('d-none');
 
-    // Add blue background after a slight delay for visual effect
-    setTimeout(() => {
-        addBlueBackground(i);
-    }, 10);
+  // Add blue background after a slight delay for visual effect
+  setTimeout(() => {
+    addBlueBackground(i);
+  }, 10);
 }
 
 /**
@@ -146,30 +148,30 @@ function openContact(i) {
  * @returns {boolean} - Returns true after successfully adding the contact.
  */
 async function addContact(event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    const formData = new FormData(document.getElementById("add-contact-form"));
-    const name = formData.get("name");
-    const email = formData.get("email");
-    const mobile = formData.get("tel");
+  const formData = new FormData(document.getElementById('add-contact-form'));
+  const name = formData.get('name');
+  const email = formData.get('email');
+  const mobile = formData.get('tel');
 
-    let contact = {
-        name: name,
-        email: email,
-        mobile: mobile,
-    };
+  let contact = {
+    name: name,
+    email: email,
+    mobile: mobile,
+  };
 
-    try {
-        await postData("/contacts", contact);
-        clearAddForm();
-    } catch (error) {
-        console.error('Error adding contact:', error);
-    }
-    
-    showCreationPopup();
-    closeAddContactOverlay();
-    init();
-    return true;
+  try {
+    await postData('/contacts', contact);
+    clearAddForm();
+  } catch (error) {
+    console.error('Error adding contact:', error);
+  }
+
+  showCreationPopup();
+  closeAddContactOverlay();
+  init();
+  return true;
 }
 
 /**
@@ -180,17 +182,16 @@ async function addContact(event) {
  * @param {number} i - Index of the contact to be deleted.
  */
 async function deleteContact(i) {
-    let contactId = contacts[i].id;
+  let contactId = contacts[i].id;
 
-    toggleConfirmationOverlay();
+  toggleConfirmationOverlay();
 
-    await deleteData(`/contacts/${contactId}`);
-    console.log("Contact deleted:", contactId);
-    init();
-    docID('selected-container').classList.add('d-none');
+  await deleteData(`/contacts/${contactId}`);
+  init();
+  docID('selected-container').classList.add('d-none');
 
-    closeSelectedContactOverlay();
-    showDeletePopup();
+  closeSelectedContactOverlay();
+  showDeletePopup();
 }
 
 /**
@@ -203,20 +204,20 @@ async function deleteContact(i) {
  * @param {number} i - Index of the contact to be edited.
  */
 async function editContact(i) {
-    toggleConfirmationOverlay();
-    let contactId = contacts[i].id;
-    let oldContact = await getData(`/contacts/${contactId}`);
-    let newContact = getNewInput();
+  toggleConfirmationOverlay();
+  let contactId = contacts[i].id;
+  let oldContact = await getData(`/contacts/${contactId}`);
+  let newContact = getNewInput();
 
-    let changedContact = { ...oldContact, ...newContact };
+  let changedContact = { ...oldContact, ...newContact };
 
-    await updateData(`/contacts/${contactId}`, changedContact);
-    localStorage.setItem('contacts', JSON.stringify(contacts));
+  await updateData(`/contacts/${contactId}`, changedContact);
+  localStorage.setItem('contacts', JSON.stringify(contacts));
 
-    showUpdatePopup();
-    closeSelectedContactOverlay();
-    closeEditContactOverlay();
-    init();
+  showUpdatePopup();
+  closeSelectedContactOverlay();
+  closeEditContactOverlay();
+  init();
 }
 
 /**
@@ -227,18 +228,18 @@ async function editContact(i) {
  * @param {number} i - Index of the contact to be edited.
  */
 async function confirmationEdit(i) {
-    let confirmationOverlay = docID('confirmation_overlay');
-    let contactId = contacts[i].id;
-    let oldContact = await getData(`/contacts/${contactId}`);
-    let newContact = getNewInput();
+  let confirmationOverlay = docID('confirmation_overlay');
+  let contactId = contacts[i].id;
+  let oldContact = await getData(`/contacts/${contactId}`);
+  let newContact = getNewInput();
 
-    if (oldContact === newContact) {
-        await addErrorAnimation();
-        return;
-    }
+  if (oldContact === newContact) {
+    await addErrorAnimation();
+    return;
+  }
 
-    confirmationOverlay.innerHTML = confirmationEditHTML(i);
-    toggleConfirmationOverlay();
+  confirmationOverlay.innerHTML = confirmationEditHTML(i);
+  toggleConfirmationOverlay();
 }
 
 /**
@@ -248,10 +249,10 @@ async function confirmationEdit(i) {
  * @param {number} i - Index of the contact to be deleted.
  */
 function confirmationDelete(i) {
-    let confirmationOverlay = docID('confirmation_overlay');
+  let confirmationOverlay = docID('confirmation_overlay');
 
-    confirmationOverlay.innerHTML = confirmationDeleteHTML(i);
-    toggleConfirmationOverlay();
+  confirmationOverlay.innerHTML = confirmationDeleteHTML(i);
+  toggleConfirmationOverlay();
 }
 
 /**
@@ -261,68 +262,68 @@ function confirmationDelete(i) {
  * @param {number} i - Index of the contact container to be selected.
  */
 function addBlueBackground(i) {
-    let contactContainer = docID(`contact-container(${i})`);
+  let contactContainer = docID(`contact-container(${i})`);
 
-    if (selectedContact === contactContainer) {
-        contactContainer.classList.remove('blue-background');
-        docID('selected-container').classList.remove('show');
-        selectedContact = null;
-    } else {
-        if (selectedContact !== null) {
-            selectedContact.classList.remove('blue-background');
-        }
-
-        contactContainer.classList.add('blue-background');
-        docID('selected-container').classList.add('show');
-
-        selectedContact = contactContainer;
+  if (selectedContact === contactContainer) {
+    contactContainer.classList.remove('blue-background');
+    docID('selected-container').classList.remove('show');
+    selectedContact = null;
+  } else {
+    if (selectedContact !== null) {
+      selectedContact.classList.remove('blue-background');
     }
+
+    contactContainer.classList.add('blue-background');
+    docID('selected-container').classList.add('show');
+
+    selectedContact = contactContainer;
+  }
 }
 
 /**
  * Shows a creation popup for indicating a successful contact addition.
  */
 function showCreationPopup() {
-    docID('creation_popup_container').classList.add('show');
-    docID('creation_popup').classList.add('show');
-    setTimeout(() => {
-        docID('creation_popup_container').classList.remove('show');
-    }, 1000);
+  docID('creation_popup_container').classList.add('show');
+  docID('creation_popup').classList.add('show');
+  setTimeout(() => {
+    docID('creation_popup_container').classList.remove('show');
+  }, 1000);
 }
 
 /**
  * Shows an update popup for indicating a successful contact update.
  */
 function showUpdatePopup() {
-    docID('update_popup_container').classList.add('show');
-    docID('update_popup').classList.add('show');
-    setTimeout(() => {
-        docID('update_popup_container').classList.remove('show');
-    }, 1000);
+  docID('update_popup_container').classList.add('show');
+  docID('update_popup').classList.add('show');
+  setTimeout(() => {
+    docID('update_popup_container').classList.remove('show');
+  }, 1000);
 }
 
 /**
  * Shows a delete popup for indicating a successful contact deletion.
  */
 function showDeletePopup() {
-    docID('delete_popup_container').classList.add('show');
-    docID('delete_popup').classList.add('show');
-    setTimeout(() => {
-        docID('delete_popup_container').classList.remove('show');
-    }, 1000);
+  docID('delete_popup_container').classList.add('show');
+  docID('delete_popup').classList.add('show');
+  setTimeout(() => {
+    docID('delete_popup_container').classList.remove('show');
+  }, 1000);
 }
 
 /**
  * Toggles the visibility of the navigation container for contacts.
  */
 function toggleNav() {
-    let navContainer = docID('nav_contact');
+  let navContainer = docID('nav_contact');
 
-    if (navContainer.classList.contains('d-none')) {
-        navContainer.classList.remove('d-none');
-    } else {
-        navContainer.classList.add('d-none');
-    }
+  if (navContainer.classList.contains('d-none')) {
+    navContainer.classList.remove('d-none');
+  } else {
+    navContainer.classList.add('d-none');
+  }
 }
 
 /**
@@ -331,14 +332,13 @@ function toggleNav() {
  * If the overlay is displayed ('d-flex'), it hides it ('d-none').
  */
 function toggleConfirmationOverlay() {
-    let confirmationOverlay = docID('confirmation_overlay');
+  let confirmationOverlay = docID('confirmation_overlay');
 
-    if (confirmationOverlay.classList.contains('d-none')) {
-        confirmationOverlay.classList.remove('d-none');
-        confirmationOverlay.classList.add('d-flex');
-    } else {
-        confirmationOverlay.classList.remove('d-flex');
-        confirmationOverlay.classList.add('d-none');
-    }
+  if (confirmationOverlay.classList.contains('d-none')) {
+    confirmationOverlay.classList.remove('d-none');
+    confirmationOverlay.classList.add('d-flex');
+  } else {
+    confirmationOverlay.classList.remove('d-flex');
+    confirmationOverlay.classList.add('d-none');
+  }
 }
-

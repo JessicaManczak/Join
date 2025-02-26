@@ -238,7 +238,6 @@ function renderNoTask() {
  */
 async function showTasks(reloadContacts) {
   await loadTasks();
-  console.log('test');
   if (reloadContacts) {
     await initContacts();
   }
