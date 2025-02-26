@@ -1,5 +1,10 @@
+* {
+  user-select: none;
+}
+
 body {
-  overflow: hidden;
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .legal_notice {
@@ -8,7 +13,7 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  box-sizing: border-box;  
+  box-sizing: border-box;
   overflow-y: scroll !important;
   overflow-x: hidden !important;
 }
