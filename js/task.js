@@ -13,11 +13,13 @@ async function init() {
   }, 1000);
   await loadCurrentUsers();
   showDropUser();
-  document.getElementById("log_out").addEventListener('click', logOut);
-  document.querySelector('.drop-logo').addEventListener('click', toggleDropdown);
+  document.getElementById('log_out').addEventListener('click', logOut);
+  document
+    .querySelector('.drop-logo')
+    .addEventListener('click', toggleDropdown);
   window.addEventListener('click', function (event) {
     if (!event.target.matches('.drop-logo')) {
-      let dropdowns = document.getElementsByClassName("dropdown-content");
+      let dropdowns = document.getElementsByClassName('dropdown-content');
       for (let i = 0; i < dropdowns.length; i++) {
         let openDropdown = dropdowns[i];
         if (openDropdown.classList.contains('show')) {
@@ -29,7 +31,7 @@ async function init() {
   window.addEventListener('resize', checkOrientation);
   window.addEventListener('orientationchange', checkOrientation);
   checkOrientation();
-  setInterval(checkOrientation, 500);  
+  setInterval(checkOrientation, 500);
 
   setDateRestriction('taskDueDate');
 }
@@ -70,7 +72,7 @@ function getTaskFromForm() {
     assignedTo: assignedContacts,
     content: document.getElementById('addCategoryInputField').innerHTML,
     subtasks: subtasks,
-    status: sendTaskStatus
+    status: sendTaskStatus,
   };
   return task;
 }
@@ -133,11 +135,21 @@ function clearPriority(reset) {
  * @returns {string} - The priority level ('Urgent', 'Medium', 'Low').
  */
 function getPriority() {
-  if (document.getElementById('urgentPriority').classList.contains('priority_active')) {
+  if (
+    document
+      .getElementById('urgentPriority')
+      .classList.contains('priority_active')
+  ) {
     return 'Urgent';
-  } else if (document.getElementById('mediumPriority').classList.contains('priority_active')) {
+  } else if (
+    document
+      .getElementById('mediumPriority')
+      .classList.contains('priority_active')
+  ) {
     return 'Medium';
-  } else if (document.getElementById('lowPriority').classList.contains('priority_active')) {
+  } else if (
+    document.getElementById('lowPriority').classList.contains('priority_active')
+  ) {
     return 'Low';
   }
 }
@@ -198,11 +210,16 @@ function toggleCategoryDropdown() {
 /**
  * Closes dropdowns if clicked outside of them.
  */
-document.addEventListener('click', function(event) {
-  ['assignedDropdown', 'categoryDropdown'].forEach(id => {
+document.addEventListener('click', function (event) {
+  ['assignedDropdown', 'categoryDropdown'].forEach((id) => {
     let dropdown = document.getElementById(id);
-    let offsetDivId = id === 'assignedDropdown' ? 'addCategory' : 'add_subtasks';
-    if (dropdown && !dropdown.contains(event.target) && !event.target.closest(`#${id.replace('Dropdown', '')}`)) {
+    let offsetDivId =
+      id === 'assignedDropdown' ? 'addCategory' : 'add_subtasks';
+    if (
+      dropdown &&
+      !dropdown.contains(event.target) &&
+      !event.target.closest(`#${id.replace('Dropdown', '')}`)
+    ) {
       dropdown.classList.remove('show');
       addOffSetToHeight('', document.getElementById(offsetDivId));
     }
@@ -265,7 +282,9 @@ function renderAssignedContact() {
   let content = document.getElementById('selectedContact');
   content.innerHTML = '';
   for (let i = 0; i < assignedContacts.length; i++) {
-    content.innerHTML += templateUserInitials(getContactById(assignedContacts[i]));
+    content.innerHTML += templateUserInitials(
+      getContactById(assignedContacts[i])
+    );
   }
 }
 
@@ -302,7 +321,7 @@ function renderSubtasks() {
     subtaskContent.innerHTML += templateBuildSubtask(subtask, index);
   });
 }
-  
+
 /**
  * Deletes a subtask from the task.
  *
@@ -375,12 +394,18 @@ function clearAddTask() {
  * Adds animations for sending the task.
  */
 function add_animations() {
-  document.getElementsByClassName('hidden_container')[0].classList.add('visible');
+  document
+    .getElementsByClassName('hidden_container')[0]
+    .classList.add('visible');
   document.getElementsByClassName('hidden_popup')[0].classList.add('visible');
 
   setTimeout(() => {
-    document.getElementsByClassName('hidden_container')[0].classList.remove('visible');
-    document.getElementsByClassName('hidden_popup')[0].classList.remove('visible');
+    document
+      .getElementsByClassName('hidden_container')[0]
+      .classList.remove('visible');
+    document
+      .getElementsByClassName('hidden_popup')[0]
+      .classList.remove('visible');
   }, 2000);
 }
 
@@ -392,10 +417,10 @@ function redirect() {
   var port = window.location.port;
   var targetUrl = 'https://' + hostname;
   if (port) {
-      targetUrl += ':' + port;
+    targetUrl += ':' + port;
   }
-  targetUrl += '/board.html';
-  setTimeout(function() {
-      window.location.href = targetUrl;
+  targetUrl += 'Join/board.html';
+  setTimeout(function () {
+    window.location.href = targetUrl;
   }, 1000);
 }
