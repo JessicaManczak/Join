@@ -275,7 +275,14 @@ function showDropUser() {
       initials = firstNameLetter + lastNameLetter;
     }
 
-    document.getElementById('drop_user').innerHTML = initials;
+    const dropUserElement = document.getElementById('drop_user');
+    if (dropUserElement) {
+      dropUserElement.innerHTML = initials;
+    } else {
+      console.warn("Element mit ID 'drop_user' nicht gefunden!");
+    }
+  } else {
+    console.warn('currentUser ist nicht gesetzt!');
   }
 }
 
