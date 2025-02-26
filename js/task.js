@@ -419,7 +419,7 @@ function redirect() {
   if (port) {
     targetUrl += ':' + port;
   }
-  targetUrl += 'Join/board.html';
+  targetUrl += '/Join/board.html';
   setTimeout(function () {
     window.location.href = targetUrl;
   }, 1000);
